@@ -1,88 +1,99 @@
 import streamlit as st
+from PIL import Image
 
-# --- Style CSS pour le fond ---
-page_bg = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-color: #f5f5dc; /* beige clair */
-}
-.sidebar .sidebar-content {
-    background-color: #d2b48c; /* marron clair */
-}
-</style>
-"""
-st.markdown(page_bg, unsafe_allow_html=True)
+# Configuration de la page
+st.set_page_config(page_title="CV Safiyah NGOM", layout="wide")
 
-# Données du CV
+# --- Style CSS personnalisé pour correspondre à l'image ---
+st.markdown("""
+    <style>
+    /* Fond de la zone principale (à droite) */
+    [data-testid="stAppViewContainer"] {
+        background-color: #ffffff; 
+    }
+    /* Style de la barre latérale (Partie colorée à gauche) */
+    [data-testid="stSidebar"] {
+        background-color: #dccab9; /* Couleur beige/sable du modèle */
+    }
+    /* Ajustement des titres pour plus de sobriété */
+    h1, h2, h3 {
+        color: #2c2c2c;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- DONNÉES DU CV ---
 cv = {
     "Nom": "Safiyah NGOM",
     "Titre": "Étudiante en Géomatique",
-    "Résumé": (
-        "Étudiante en première année en géomatique au centre de formation CEDT, le G15, "
-        "je souhaite intégrer l’Agence Nationale de la Statistique et de la Démographie (ANSD) pour un stage académique. "
-        "Ce stage me permettra de renforcer mes compétences en SIG, en traitement de données statistiques et en cartographie numérique, "
-        "tout en contribuant aux missions de collecte et d’analyse de données territoriales et socio-économiques."
-    ),
-    "Compétences": [
-        "Maîtrise des bases des logiciels de SIG : ArcGIS, QGIS",
-        "Conception et gestion de bases de données sous PostgreSQL/PostGIS, MySQL et MariaDB",
-        "Travail en équipe et en autonomie",
-        "Capacité d’analyse et de synthèse",
-        "Sens de l’organisation et rigueur professionnelle"
-    ],
-    "Projets Académiques": [
-        "Carte de la répartition de la population de Thiès (Travail pratique de SIG)",
-        "Numérisation des Parcelles Assainies",
-        "Projet de base de données spatiale sous PostgreSQL visant à recenser et gérer les infrastructures de la commune de Diass"
-    ],
-    "Formation": [
-        {"Année": "2024-2025", "Diplôme": "Licence 1 en Géomatique", "Établissement": "CEDT, LE G15, Dakar"},
-        {"Année": "2023", "Diplôme": "Baccalauréat L2", "Établissement": "Annexe Malick Sy, Thiès"}
-    ],
-    "Centres d'intérêt": [
-        "Cartographie interactive",
-        "Curiosité pour les tendances démographiques et leurs conséquences sociales"
-    ],
+    "Email": "safiyahngom@gmail.com",
+    "Adresse": "Grand Standing, Thiès",
     "Langues": {
         "Français": "Courant",
         "Anglais": "Niveau intermédiaire"
     },
-    "Coordonnées": {
-        "Email": "safiyahngom@gmail.com",
-        "Adresse": "Grand Standing, Thiès"
-    }
+    "Formation": [
+        {"Année": "2024 - 2025", "Diplôme": "Licence 1 en Géomatique", "Lieu": "CEDT, LE G15, Dakar"},
+        {"Année": "2023", "Diplôme": "Baccalauréat L2", "Lieu": "Annexe Malick Sy, Thiès"}
+    ],
+    "Compétences": [
+        "Maîtrise des logiciels de SIG : ArcGIS, QGIS",
+        "Gestion de bases de données : PostgreSQL/PostGIS, MySQL, MariaDB",
+        "Travail en équipe et en autonomie",
+        "Capacité d’analyse et de synthèse",
+        "Sens de l’organisation et rigueur professionnelle"
+    ],
+    "Projets": [
+        "Carte de la répartition de la population de Thiès",
+        "Numérisation des Parcelles Assainies",
+        "Base de données spatiale pour le recensement des infrastructures de Diass"
+    ],
+    "Interets": [
+        "Cartographie interactive",
+        "Tendances démographiques et sociales"
+    ]
 }
 
-# --- Mise en page en colonnes ---
-col1, col2 = st.columns([0.7, 0.3])
+# --- BARRE LATÉRALE (SIDEBAR) ---
+with st.sidebar:
+    # --- SECTION PHOTO ---
+    # Remplacez 'votre_photo.jpg' par le nom réel de votre fichier image
+    try:
+        image = Image.open('votre_photo.jpg') 
+        st.image(image, use_container_width=True)
+    except:
+        st.warning("📸 Emplacement Photo")
 
-with col1:
-    st.title(f"{cv['Nom']} - {cv['Titre']}")
+    st.markdown("### COORDONNÉES")
+    st.write(f"✉️ {cv['Email']}")
+    st.write(f"📍 {cv['Adresse']}")
 
-    st.subheader("Résumé")
-    st.write(cv['Résumé'])
-
-    st.subheader("Compétences")
-    for comp in cv["Compétences"]:
-        st.markdown(f"- {comp}")
-
-    st.subheader("Projets Académiques")
-    for projet in cv["Projets Académiques"]:
-        st.markdown(f"- {projet}")
-
-    st.subheader("Formation")
-    for formation in cv["Formation"]:
-        st.markdown(f"- {formation['Année']} : {formation['Diplôme']} ({formation['Établissement']})")
-
-with col2:
-    st.subheader("Coordonnées")
-    for cle, valeur in cv["Coordonnées"].items():
-        st.markdown(f"- {cle} : {valeur}")
-
-    st.subheader("Langues")
+    st.markdown("---")
+    st.markdown("### LANGUES")
     for langue, niveau in cv["Langues"].items():
-        st.markdown(f"- {langue} : {niveau}")
+        st.write(f"*{langue}* : {niveau}")
 
-    st.subheader("Centres d'intérêt")
-    for centre in cv["Centres d'intérêt"]:
-        st.markdown(f"- {centre}")
+    st.markdown("---")
+    st.markdown("### FORMATION")
+    for f in cv["Formation"]:
+        st.markdown(f"*{f['Diplôme']}*")
+        st.caption(f"{f['Lieu']} | {f['Année']}")
+
+    st.markdown("---")
+    st.markdown("### CENTRES D'INTÉRÊT")
+    for i in cv["Interets"]:
+        st.write(f"• {i}")
+
+# --- ZONE PRINCIPALE (À DROITE) ---
+st.title(cv["Nom"])
+st.subheader(cv["Titre"])
+
+st.markdown("---")
+
+st.markdown("### 🛠 COMPÉTENCES")
+for comp in cv["Compétences"]:
+    st.markdown(f"- {comp}")
+
+st.markdown("### 📊 PROJETS ACADÉMIQUES")
+for projet in cv["Projets"]:
+    st.markdown(f"- {projet}")
