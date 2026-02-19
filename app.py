@@ -13,7 +13,7 @@ st.markdown("""
     }
     /* Style de la barre latérale (Partie colorée à gauche) */
     [data-testid="stSidebar"] {
-        background-color: #dccab9; /* Couleur beige/sable du modèle */
+        background-color: #ede8do; /* Couleur beige/sable du modèle */
     }
     /* Ajustement des titres pour plus de sobriété */
     h1, h2, h3 {
@@ -57,12 +57,11 @@ cv = {
 # --- BARRE LATÉRALE (SIDEBAR) ---
 with st.sidebar:
     # --- SECTION PHOTO ---
-    # Remplacez 'votre_photo.jpg' par le nom réel de votre fichier image
     try:
-        image = Image.open('votre_photo.jpg') 
+        image = Image.open('cv.png') 
         st.image(image, use_container_width=True)
     except:
-        st.warning("📸 Emplacement Photo")
+        st.warning("📸 ")
 
     st.markdown("### COORDONNÉES")
     st.write(f"✉️ {cv['Email']}")
